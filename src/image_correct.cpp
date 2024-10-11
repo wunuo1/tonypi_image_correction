@@ -17,7 +17,11 @@ private:
     // rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr ros_publisher_ = nullptr; 
 
     // rclcpp::Subscription<hbm_img_msgs::msg::HbmMsg1080P>::SharedPtr hbmem_subscription_ = nullptr; 
+#ifdef UBUTNU_22
+    rclcpp::Publisher<hbm_img_msgs::msg::HbmMsg1080P>::SharedPtr hbmem_publisher_ = nullptr;
+#else
     rclcpp::PublisherHbmem<hbm_img_msgs::msg::HbmMsg1080P>::SharedPtr hbmem_publisher_ = nullptr;
+#endif
     std::string sub_image_topic_ = "/image";
     std::string pub_image_topic_ = "/image_correct";
     bool is_shared_mem_sub_ = true;
@@ -45,8 +49,13 @@ public:
         // hbmem_subscription_ = this->create_subscription<hbm_img_msgs::msg::HbmMsg1080P>(
         //     sub_image_topic_, rclcpp::SensorDataQoS(),
         //     std::bind(&ImageCorrectNode::in_hbmem_topic_cb, this, std::placeholders::_1));
-        hbmem_publisher_ = this->create_publisher_hbmem<hbm_img_msgs::msg::HbmMsg1080P>(
-                pub_image_topic_, 1);
+#ifdef UBUTNU_22
+    hbmem_publisher_ = this->create_publisher<hbm_img_msgs::msg::HbmMsg1080P>(pub_image_topic_, 1);
+#else
+    hbmem_publisher_ = this->create_publisher_hbmem<hbm_img_msgs::msg::HbmMsg1080P>(pub_image_topic_, 1);
+#endif
+
+
 
     }
 

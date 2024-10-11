@@ -15,6 +15,15 @@
 cmake_minimum_required(VERSION 3.5)
 project(tonypi_image_correction)
 
+if (${UBUNTU_VERSION} MATCHES "22.04")
+    message("This is Ubuntu 22.04")
+    add_definitions(-DUBUTNU_22)
+elseif(${UBUNTU_VERSION} MATCHES "20.04")
+    message("This is Ubuntu 20.04")
+else()
+    message(STATUS "This is a different version of Ubuntu")
+endif()
+
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
@@ -37,7 +46,7 @@ ament_target_dependencies(
     cv_bridge
     hbm_img_msgs
 )
-target_link_libraries(tonypi_image_correction opencv_world hbmem )
+target_link_libraries(tonypi_image_correction opencv_world)
 
 install(
   TARGETS tonypi_image_correction
