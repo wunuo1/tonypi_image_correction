@@ -15,6 +15,12 @@
 cmake_minimum_required(VERSION 3.5)
 project(tonypi_image_correction)
 
+execute_process(
+    COMMAND lsb_release -rs
+    OUTPUT_VARIABLE UBUNTU_VERSION
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
 if (${UBUNTU_VERSION} MATCHES "22.04")
     message("This is Ubuntu 22.04")
     add_definitions(-DUBUTNU_22)
